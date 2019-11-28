@@ -1,10 +1,5 @@
 import random
-from enum import Enum
-
-
-class Sexe(Enum):
-    Male = False
-    Female = True
+from Enumerations import Sexe
 
 
 class Rabbit:
