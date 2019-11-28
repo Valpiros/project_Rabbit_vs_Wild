@@ -17,7 +17,9 @@ class Rabbit:
         print("faim :", self.faim, "/ 100")
         print("soif :", self.soif, "/ 100")
         print("sexe :", self.sexe)
-
+        # ajouter la partie placement sur la carte
+        # ajouter à une liste de lapins à parcourir pendant le main() je pense
+        
 
 """ 
 rabbit1 = Rabbit()  # init d'un lapin
