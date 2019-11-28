@@ -4,7 +4,7 @@ from Enumerations import Sexe
 
 class Rabbit:
 
-    def __init__(self):
+    def __init__(self, x, y):
         self.faim = 0
         self.soif = 0
         self.sexe = Sexe(bool(random.getrandbits(1))).name
@@ -14,7 +14,9 @@ class Rabbit:
         print("sexe :", self.sexe)
         # ajouter la partie placement sur la carte
         # ajouter à une liste de lapins à parcourir pendant le main() je pense
-        
+        self.x = x
+        self.y = y
+
 
 """ 
 rabbit1 = Rabbit()  # init d'un lapin

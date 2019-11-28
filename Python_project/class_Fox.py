@@ -5,7 +5,7 @@ from Enumerations import Sexe
 
 class Fox:
 
-    def __init__(self):
+    def __init__(self, x, y):
         self.faim = 0
         self.soif = 0
         self.sexe = Sexe(bool(random.getrandbits(1))).name
@@ -13,3 +13,5 @@ class Fox:
         print("faim :", self.faim, "/ 100")
         print("soif :", self.soif, "/ 100")
         print("sexe :", self.sexe)
+        self.x = x
+        self.y = y
