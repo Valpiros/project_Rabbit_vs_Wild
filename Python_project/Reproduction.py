@@ -4,14 +4,14 @@ from Enumerations import Type
 import random
 
 
-def reproduction(x, y, type):
+def reproduction(x, y, name_type):
     nb_childs = random.randrange(5)+1
     print("nb enfants:", nb_childs)
     for index in range(0, nb_childs):
         # on détermine la position du nouveau né, différente de celle de la mère
         pos_x, pos_y = define_pos(x, y)
         # on le génère
-        if type == Type(0).name:
+        if name_type == Type(0).name:
             Rabbit(pos_x, pos_y)
         else:
             Fox(pos_x, pos_y)
