@@ -1,14 +1,22 @@
+import sys
+from contextlib import closing
+
 import numpy as np
-from utils.gym.spaces import discrete
+from six import StringIO, b
+
+from gym import utils
+from gym_foo.envs import discrete
+
+
 
 LEFT = 0
 DOWN = 1
 RIGHT = 2
 UP = 3
 
-MAPS = {
-    "map1": np.array([[0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],  # 1
-            [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0],  # 2
+# ici ajouter les fonctions qui permettent de créer les Qtables
+map1 = np.array([[0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],  # 1
+            [0,0,0,3,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0],  # 2
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,1,1],  # 3
             [0,0,2,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,0,0,1,1,1,1],  # 4
             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1],  # 5
@@ -38,21 +46,10 @@ MAPS = {
             [0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,2,0,1,1,1],  # 29
             [0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,1,1,1],  # 30
             [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1],  # 31
-            [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1]]),  # 32
-    "8x8": [
-        "SFFFFFFF",
-        "FFFFFFFF",
-        "FFFHFFFF",
-        "FFFFFHFF",
-        "FFFHFFFF",
-        "FHHFFFHF",
-        "FHFFHFHF",
-        "FFFHFFFG"
-    ],
-}
+            [0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,1,1,1,1,1,1]])  # 32
 
 
-class RabbitVSWild (discrete.DiscreteEnv):
+class RabbitVSWildEnv (discrete.DiscreteEnv):
     """
 
     S : starting point, safe
@@ -65,19 +62,19 @@ class RabbitVSWild (discrete.DiscreteEnv):
 
     """
 
-    def __init__(self, desc=None, map_name="map1", is_slippery=True):
-        if desc is None:
-            desc = MAPS[map_name]
-        self.desc = desc = np.asarray(desc, dtype='c')
-        self.nrow, self.ncol = nrow, ncol = desc.shape
-        self.reward_range = (0, 1)  # depends on the map
+    metadata = {'render.modes': ['human', 'ansi']}
+
+    def __init__(self):
+        desc = map1
+        self.desc = desc
+        self.ncol = ncol = np.size(map1, 1)
+        self.nrow = nrow = ncol
+        self.reward_range = (-1, 2, 5)  # depends ofthe map
 
         nA = 4
         nS = nrow * ncol
-
-        isd = np.array(desc == b'S').astype('float64').ravel()
+        isd = np.array(desc == 3).astype('float64').ravel()  # 3 pour lapin, à changer
         isd /= isd.sum()
-
         P = {s : {a : [] for a in range(nA)} for s in range(nS)}
 
         def to_s(row, col):
@@ -96,27 +93,40 @@ class RabbitVSWild (discrete.DiscreteEnv):
 
         for row in range(nrow):
             for col in range(ncol):
+                print(col, row)
                 s = to_s(row, col)
                 for a in range(4):
                     li = P[s][a]
-                    letter = desc[row, col]
-                    if letter in b'GH':
+                    letter = desc[row][col]
+                    if letter == 1:  # fin du déplacement
                         li.append((1.0, s, 0, True))
                     else:
-                        if is_slippery:
-                            for b in [(a-1)%4, a, (a+1)%4]:
-                                newrow, newcol = inc(row, col, b)
-                                newstate = to_s(newrow, newcol)
-                                newletter = desc[newrow, newcol]
-                                done = bytes(newletter) in b'GH'
-                                rew = float(newletter == b'G')
-                                li.append((1.0/3.0, newstate, rew, done))
-                        else:
-                            newrow, newcol = inc(row, col, a)
-                            newstate = to_s(newrow, newcol)
-                            newletter = desc[newrow, newcol]
-                            done = bytes(newletter) in b'GH'
-                            rew = float(newletter == b'G')
-                            li.append((1.0, newstate, rew, done))
+                        newrow, newcol = inc(row, col, a)
+                        newstate = to_s(newrow, newcol)
+                        newletter = desc[newrow][newcol]
+                        if int(newletter) == 1:  # fin du déplacement
+                            done = True
+                            rew = 5
+                        elif int(newletter) == 0:
+                            done = False
+                            rew = -1  # récompense, traiter selon la Qtable à utiliser
+                        li.append((1.0, newstate, rew, done))
 
-        super(RabbitVSWild, self).__init__(nS, nA, P, isd)
+        super(RabbitVSWildEnv, self).__init__(nS, nA, P, isd)
+
+    def render(self, mode='human'):
+        outfile = StringIO() if mode == 'ansi' else sys.stdout
+
+        row, col = self.s // self.ncol, self.s % self.ncol
+        desc = self.desc.tolist()
+        desc = [[c.decode('utf-8') for c in line] for line in desc]
+        desc[row][col] = utils.colorize(desc[row][col], "red", highlight=True)
+        if self.lastaction is not None:
+            outfile.write("  ({})\n".format(["Left","Down","Right","Up"][self.lastaction]))
+        else:
+            outfile.write("\n")
+        outfile.write("\n".join(''.join(line) for line in desc)+"\n")
+
+        if mode != 'human':
+            with closing(outfile):
+                return outfile.getvalue()

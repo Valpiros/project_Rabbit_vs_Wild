@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8fa4ee1b-1f43-4337-82f9-1c7781469cc7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/class_Fox.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Python_project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Python_project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/class_Rabbits.py" beforeDir="false" afterPath="$PROJECT_DIR$/class_Rabbits.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Environment.py" beforeDir="false" afterPath="$PROJECT_DIR$/gym-foo/gym_foo/envs/RabbitVSWild.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +30,13 @@
   <component name="ProjectId" id="1UEtT9PMHKtmG34Zazk4pcdRa7a" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="D:/Git/bin/git.exe" />
-    <property name="settings.editor.selected.configurable" value="vcs.Git" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/gym-foo/gym_foo/envs" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ESTEI - Système embarqué\Mastere 1\apprentissage par renforcement\project_Rabbit_vs_Wild\Python_project\gym-foo\gym_foo\envs" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -44,7 +50,28 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.class_Rabbits">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="Environment" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="Python_project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/Environment.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="class_Rabbits" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Python_project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -89,8 +116,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.class_Rabbits" />
         <item itemvalue="Python.main" />
+        <item itemvalue="Python.Environment" />
+        <item itemvalue="Python.class_Rabbits" />
       </list>
     </recent_temporary>
   </component>
